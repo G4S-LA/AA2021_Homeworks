@@ -7,6 +7,20 @@
     android:background="@color/back"
     tools:context=".MainActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
+
     <ImageView
         android:id="@+id/img_back"
         android:layout_width="0dp"
@@ -18,11 +32,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/img_back_arrow"
-        android:layout_width="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:src="@mipmap/mask"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_back_arrow"
+        android:layout_width="6dp"
+        android:layout_height="10dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/Path"
+        android:src="@mipmap/path"
         app:layout_constraintBottom_toBottomOf="@id/tv_back"
         app:layout_constraintEnd_toStartOf="@id/tv_back"
         app:layout_constraintTop_toTopOf="@id/tv_back" />
@@ -39,11 +62,229 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/age"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/age"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintBottom_toTopOf="@id/tv_film" />
+
+
+    <TextView
+        android:id="@+id/tv_film"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/film_name"
         android:textColor="@color/film_name"
-        android:textSize="66sp"
-        tools:layout_editor_absoluteY="596dp" />
+        android:textSize="59sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/img_back"
+        app:layout_constraintStart_toStartOf="@+id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@id/img_back" />
+
+    <TextView
+        android:id="@+id/tv_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/genres"
+        android:textColor="@color/pink"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_film" />
+
+    <ImageView
+        android:id="@+id/img_star1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:src="@mipmap/star_on"
+        app:layout_constraintEnd_toStartOf="@id/img_star2"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_genre" />
+
+    <ImageView
+        android:id="@+id/img_star2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="4dp"
+        android:src="@mipmap/star_on"
+        app:layout_constraintEnd_toStartOf="@id/img_star3"
+        app:layout_constraintStart_toEndOf="@id/img_star1"
+        app:layout_constraintTop_toTopOf="@id/img_star1" />
+
+    <ImageView
+        android:id="@+id/img_star3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="4dp"
+        android:src="@mipmap/star_on"
+        app:layout_constraintEnd_toStartOf="@id/img_star4"
+        app:layout_constraintStart_toEndOf="@id/img_star2"
+        app:layout_constraintTop_toTopOf="@id/img_star2" />
+
+    <ImageView
+        android:id="@+id/img_star4"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="4dp"
+        android:src="@mipmap/star_on"
+        app:layout_constraintEnd_toStartOf="@id/img_star5"
+        app:layout_constraintStart_toEndOf="@id/img_star3"
+        app:layout_constraintTop_toTopOf="@id/img_star3" />
+
+    <ImageView
+        android:id="@+id/img_star5"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="4dp"
+        android:src="@mipmap/star_off"
+        app:layout_constraintStart_toEndOf="@id/img_star4"
+        app:layout_constraintTop_toBottomOf="@id/tv_genre"
+        app:layout_constraintTop_toTopOf="@id/img_star4" />
+
+    <TextView
+        android:id="@+id/tv_num_reviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:text="@string/num_reviews"
+        android:textColor="@color/back_grey"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/img_star5"
+        app:layout_constraintStart_toEndOf="@id/img_star5"
+        app:layout_constraintTop_toTopOf="@id/img_star5" />
+
+    <TextView
+        android:id="@+id/tv_storyline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/storyline"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/img_star1" />
+
+    <TextView
+        android:id="@+id/storyline_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="@string/storyline_text"
+        android:textColor="@color/text_grey"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/tv_storyline" />
+
+    <TextView
+        android:id="@+id/cast"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:text="@string/cast"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/storyline_text"
+        android:layout_marginTop="24dp"/>
+
+    <ImageView
+        android:id="@+id/img_ironMan"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/ironMan"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toStartOf="@id/img_captainA"
+        app:layout_constraintTop_toBottomOf="@id/cast"
+        android:layout_marginTop="7dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/ironMan"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/img_ironMan"
+        app:layout_constraintEnd_toEndOf="@id/img_ironMan"
+        app:layout_constraintTop_toBottomOf="@id/img_ironMan"
+        android:layout_marginTop="6dp"/>
+
+
+    <ImageView
+        android:id="@+id/img_captainA"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/captainA"
+        app:layout_constraintStart_toEndOf="@id/img_ironMan"
+        app:layout_constraintEnd_toStartOf="@id/img_hulk"
+        app:layout_constraintTop_toTopOf="@id/img_ironMan"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/captainA"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/img_captainA"
+        app:layout_constraintEnd_toEndOf="@id/img_captainA"
+        app:layout_constraintTop_toBottomOf="@id/img_captainA"
+        android:layout_marginTop="6dp"/>
+
+    <ImageView
+        android:id="@+id/img_hulk"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/hulk"
+        app:layout_constraintStart_toEndOf="@id/img_captainA"
+        app:layout_constraintEnd_toStartOf="@id/img_thor"
+        app:layout_constraintTop_toTopOf="@id/img_captainA"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/hulk"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/img_hulk"
+        app:layout_constraintEnd_toEndOf="@id/img_hulk"
+        app:layout_constraintTop_toBottomOf="@id/img_hulk"
+        android:layout_marginTop="6dp"/>
+
+    <ImageView
+        android:id="@+id/img_thor"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/thor"
+        app:layout_constraintStart_toEndOf="@id/img_hulk"
+        app:layout_constraintEnd_toStartOf="@id/guideline_end"
+        app:layout_constraintTop_toTopOf="@id/img_hulk"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/thor"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/img_thor"
+        app:layout_constraintEnd_toEndOf="@id/img_thor"
+        app:layout_constraintTop_toBottomOf="@id/img_thor"
+        android:layout_marginTop="6dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
