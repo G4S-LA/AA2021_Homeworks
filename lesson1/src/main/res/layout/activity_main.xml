@@ -4,46 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/back"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/img_back"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/img_back_arrow"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:src="@drawable/Path"
-        app:layout_constraintBottom_toBottomOf="@id/tv_back"
-        app:layout_constraintEnd_toStartOf="@id/tv_back"
-        app:layout_constraintTop_toTopOf="@id/tv_back" />
-
-    <TextView
-        android:id="@+id/tv_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="56dp"
-        android:text="@string/back"
-        android:textColor="@color/back_grey"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/film_name"
-        android:textColor="@color/film_name"
-        android:textSize="66sp"
-        tools:layout_editor_absoluteY="596dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
