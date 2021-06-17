@@ -12,11 +12,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction()
-                .add(R.id.main_container, FragmentMoviesList())
-                .commit()
-        val cardFilm = findViewById<View>(R.id.main_container)
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.main_container, FragmentMoviesList())
+                    .commit()
+        }
 
+        val cardFilm = findViewById<View>(R.id.main_container)
         cardFilm.setOnClickListener {
             supportFragmentManager.beginTransaction()
                     .add(R.id.main, FragmentMoviesDetails())
