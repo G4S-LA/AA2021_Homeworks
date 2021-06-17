@@ -46,11 +46,12 @@
         android:id="@+id/mask_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
         android:src="@drawable/mask_1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bot"
-        android:scaleType="centerCrop"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/like"

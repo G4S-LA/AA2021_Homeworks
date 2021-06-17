@@ -15,4 +15,5 @@
     <string name="hulk">Mark Ruffalo</string>
     <string name="thor">Chris Hemsworth</string>
     <string name="duration">137 MIN</string>
+    <string name="movies_list">Movies list</string>
 </resources>
