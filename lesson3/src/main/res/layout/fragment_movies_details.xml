@@ -37,7 +37,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/mask"
@@ -48,7 +47,7 @@
             app:layout_constraintTop_toTopOf="@+id/img_back" />
 
         <ImageView
-            android:id="@+id/img_back_arrow"
+            android:id="@+id/iv_back_arrow"
             android:layout_width="6dp"
             android:layout_height="10dp"
             android:layout_marginEnd="8dp"
@@ -69,7 +68,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/age"
+            android:id="@+id/tv_age"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/age"
@@ -148,7 +147,7 @@
             />
 
         <TextView
-            android:id="@+id/storyline_text"
+            android:id="@+id/tv_storyline_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -162,7 +161,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_storyline" />
 
         <TextView
-            android:id="@+id/cast"
+            android:id="@+id/tv_cast"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -171,17 +170,17 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/storyline_text" />
+            app:layout_constraintTop_toBottomOf="@id/tv_storyline_text" />
 
         <ImageView
-            android:id="@+id/img_ironMan"
+            android:id="@+id/iv_ironMan"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="7dp"
             android:src="@drawable/iron_man"
-            app:layout_constraintEnd_toStartOf="@id/img_captainA"
+            app:layout_constraintEnd_toStartOf="@id/iv_captainA"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/cast" />
+            app:layout_constraintTop_toBottomOf="@id/tv_cast" />
 
         <TextView
             android:layout_width="0dp"
@@ -191,20 +190,20 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/img_ironMan"
-            app:layout_constraintStart_toStartOf="@id/img_ironMan"
-            app:layout_constraintTop_toBottomOf="@id/img_ironMan" />
+            app:layout_constraintEnd_toEndOf="@id/iv_ironMan"
+            app:layout_constraintStart_toStartOf="@id/iv_ironMan"
+            app:layout_constraintTop_toBottomOf="@id/iv_ironMan" />
 
 
         <ImageView
-            android:id="@+id/img_captainA"
+            android:id="@+id/iv_captainA"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/captain_a"
-            app:layout_constraintEnd_toStartOf="@id/img_hulk"
-            app:layout_constraintStart_toEndOf="@id/img_ironMan"
-            app:layout_constraintTop_toTopOf="@id/img_ironMan" />
+            app:layout_constraintEnd_toStartOf="@id/iv_hulk"
+            app:layout_constraintStart_toEndOf="@id/iv_ironMan"
+            app:layout_constraintTop_toTopOf="@id/iv_ironMan" />
 
         <TextView
             android:layout_width="0dp"
@@ -214,19 +213,19 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/img_captainA"
-            app:layout_constraintStart_toStartOf="@id/img_captainA"
-            app:layout_constraintTop_toBottomOf="@id/img_captainA" />
+            app:layout_constraintEnd_toEndOf="@id/iv_captainA"
+            app:layout_constraintStart_toStartOf="@id/iv_captainA"
+            app:layout_constraintTop_toBottomOf="@id/iv_captainA" />
 
         <ImageView
-            android:id="@+id/img_hulk"
+            android:id="@+id/iv_hulk"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/hulk"
-            app:layout_constraintEnd_toStartOf="@id/img_thor"
-            app:layout_constraintStart_toEndOf="@id/img_captainA"
-            app:layout_constraintTop_toTopOf="@id/img_captainA" />
+            app:layout_constraintEnd_toStartOf="@id/iv_thor"
+            app:layout_constraintStart_toEndOf="@id/iv_captainA"
+            app:layout_constraintTop_toTopOf="@id/iv_captainA" />
 
         <TextView
             android:layout_width="0dp"
@@ -236,19 +235,19 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/img_hulk"
-            app:layout_constraintStart_toStartOf="@id/img_hulk"
-            app:layout_constraintTop_toBottomOf="@id/img_hulk" />
+            app:layout_constraintEnd_toEndOf="@id/iv_hulk"
+            app:layout_constraintStart_toStartOf="@id/iv_hulk"
+            app:layout_constraintTop_toBottomOf="@id/iv_hulk" />
 
         <ImageView
-            android:id="@+id/img_thor"
+            android:id="@+id/iv_thor"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/thor"
             app:layout_constraintEnd_toStartOf="@id/guideline_end"
-            app:layout_constraintStart_toEndOf="@id/img_hulk"
-            app:layout_constraintTop_toTopOf="@id/img_hulk" />
+            app:layout_constraintStart_toEndOf="@id/iv_hulk"
+            app:layout_constraintTop_toTopOf="@id/iv_hulk" />
 
         <TextView
             android:layout_width="0dp"
@@ -258,9 +257,9 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/img_thor"
-            app:layout_constraintStart_toStartOf="@id/img_thor"
-            app:layout_constraintTop_toBottomOf="@id/img_thor" />
+            app:layout_constraintEnd_toEndOf="@id/iv_thor"
+            app:layout_constraintStart_toStartOf="@id/iv_thor"
+            app:layout_constraintTop_toBottomOf="@id/iv_thor" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
