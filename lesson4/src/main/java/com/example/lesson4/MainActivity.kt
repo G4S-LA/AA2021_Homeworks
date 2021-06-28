@@ -4,7 +4,6 @@ package com.example.lesson4
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.example.lesson2.R
 
 class MainActivity : AppCompatActivity() {
 
