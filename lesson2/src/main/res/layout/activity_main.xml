@@ -202,7 +202,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="7dp"
-        android:src="@mipmap/ironMan"
+        android:src="@mipmap/iron_man"
         app:layout_constraintEnd_toStartOf="@id/img_captainA"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@id/cast" />
@@ -225,7 +225,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginStart="8dp"
-        android:src="@mipmap/captainA"
+        android:src="@mipmap/captain_a"
         app:layout_constraintEnd_toStartOf="@id/img_hulk"
         app:layout_constraintStart_toEndOf="@id/img_ironMan"
         app:layout_constraintTop_toTopOf="@id/img_ironMan" />
