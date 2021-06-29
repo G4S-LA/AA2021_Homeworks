@@ -3,7 +3,7 @@
     <string name="back">Back</string>
     <string name="film_name">Avengers: End Game</string>
     <string name="genres">Action, Adventure, Fantasy</string>
-    <string name="num_reviews">125 REVIEWS</string>
+    <string name="num_reviews">REVIEWS</string>
     <string name="storyline">Storyline</string>
     <string name="storyline_text">After the devastating events of Avengers: Infinity War,
         the universe is in ruins. With the help of remaining allies, the Avengers assemble
@@ -14,6 +14,6 @@
     <string name="captainA">Chris Evans</string>
     <string name="hulk">Mark Ruffalo</string>
     <string name="thor">Chris Hemsworth</string>
-    <string name="duration">137 MIN</string>
+    <string name="duration">MIN</string>
     <string name="movies_list">Movies list</string>
 </resources>

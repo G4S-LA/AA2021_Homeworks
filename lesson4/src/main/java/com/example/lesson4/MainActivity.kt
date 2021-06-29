@@ -1,8 +1,8 @@
 package com.example.lesson4
 
-
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 
 class MainActivity : AppCompatActivity() {
@@ -17,12 +17,13 @@ class MainActivity : AppCompatActivity() {
                     .commit()
         }
 
-        val cardFilm = findViewById<View>(R.id.main_container)
+/*        val cardFilm = findViewById<View>(R.id.main_container)
+
         cardFilm.setOnClickListener {
             supportFragmentManager.beginTransaction()
                     .add(R.id.main, FragmentMoviesDetails())
                     .addToBackStack(null)
                     .commit()
-        }
+        }*/
     }
 }
