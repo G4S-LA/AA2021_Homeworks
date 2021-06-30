@@ -23,7 +23,7 @@ class MoviesAdapter(
     private fun getItem(position: Int): Movie = movies[position]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderMovie {
-        return ViewHolderMovie(inflater.inflate(R.layout.view_holder_movie,parent, false))
+        return ViewHolderMovie(inflater.inflate(R.layout.item_movie,parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolderMovie, position: Int) {

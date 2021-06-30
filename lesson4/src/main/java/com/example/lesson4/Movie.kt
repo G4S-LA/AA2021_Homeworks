@@ -1,6 +1,7 @@
 package com.example.lesson4
 
 import android.net.Uri
+import java.io.Serializable
 
 data class Movie(
     val name: String,
@@ -11,4 +12,4 @@ data class Movie(
     val genres: String,
     val duration: Int,
     val isFavorite: Boolean,
-    val image: Int)
+    val image: Int) : Serializable
