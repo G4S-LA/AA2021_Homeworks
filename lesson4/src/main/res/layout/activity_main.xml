@@ -56,10 +56,12 @@
 
     <FrameLayout
         android:id="@+id/main_container"
-        android:layout_width="170dp"
-        android:layout_height="300dp"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toTopOf="@id/guideline_top"
-        android:layout_marginTop="12dp"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_top" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

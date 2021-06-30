@@ -14,4 +14,5 @@
     <color name="pink">#FF3466</color>
     <color name="text_grey">#c6c6c9</color>
     <color name="star_grey">#6d6d80</color>
+    <color name="corners">#636375</color>
 </resources>
