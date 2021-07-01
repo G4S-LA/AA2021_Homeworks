@@ -1,6 +1,8 @@
 package com.example.lesson5
 
 import android.content.Context
+import com.example.lesson5.model.Actor
+import com.example.lesson5.model.Movie
 
 fun generateActors(): List<Actor> {
 

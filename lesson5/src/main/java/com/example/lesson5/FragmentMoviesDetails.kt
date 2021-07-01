@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.lesson5.model.Movie
 
 class FragmentMoviesDetails(private var movie: Movie) : Fragment(R.layout.fragment_movies_details) {
     private val tvAge: TextView by lazy { requireView().findViewById<TextView>(R.id.tv_back) }
