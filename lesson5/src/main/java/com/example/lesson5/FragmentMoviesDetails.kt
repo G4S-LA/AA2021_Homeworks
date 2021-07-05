@@ -17,7 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.lesson5.model.Movie
 
-class FragmentMoviesDetails(private val movie: Movie) : Fragment(R.layout.fragment_movies_details) {
+class FragmentMoviesDetails() : Fragment(R.layout.fragment_movies_details) {
     private val tvAge: TextView by lazy { requireView().findViewById<TextView>(R.id.tv_age) }
     private val tvFilm: TextView by lazy { requireView().findViewById<TextView>(R.id.tv_film) }
     private val tvGenre: TextView by lazy { requireView().findViewById<TextView>(R.id.tv_genre) }
@@ -29,7 +29,6 @@ class FragmentMoviesDetails(private val movie: Movie) : Fragment(R.layout.fragme
     private val actorsAdapter: ActorsAdapter by lazy { ActorsAdapter(requireContext()) }
     private val rvActors: RecyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.rv_actors).apply {
-
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         }
     }
@@ -37,12 +36,8 @@ class FragmentMoviesDetails(private val movie: Movie) : Fragment(R.layout.fragme
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvAge.text = movie.pgAge.toString().plus("+")
-        tvFilm.text = movie.title
-        tvGenre.text = movie.genres.joinToString(separator = ", ") { it.name }
-        rating.rating = movie.rating.toFloat() / 2
-        tvNumReviews.text = movie.reviewCount.toString().plus(" REVIEWS")
-        tvStoryLne.text = movie.storyLine
+        val movie = arguments?.get(FragmentMoviesList.MOVIE) as Movie
+        setViews(movie)
 
         val requestOptions = RequestOptions().apply {
             transform(CenterCrop(), RoundedCorners(16))
@@ -58,6 +53,15 @@ class FragmentMoviesDetails(private val movie: Movie) : Fragment(R.layout.fragme
         }
 
         rvActors.adapter = actorsAdapter
+    }
+
+    private fun setViews(movie: Movie) {
+        tvAge.text = movie.pgAge.toString().plus("+")
+        tvFilm.text = movie.title
+        tvGenre.text = movie.genres.joinToString(separator = ", ") { it.name }
+        rating.rating = movie.rating.toFloat() / 2
+        tvNumReviews.text = movie.reviewCount.toString().plus(" REVIEWS")
+        tvStoryLne.text = movie.storyLine
     }
 }
 

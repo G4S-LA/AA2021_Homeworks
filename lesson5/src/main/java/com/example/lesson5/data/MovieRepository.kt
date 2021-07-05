@@ -1,5 +1,6 @@
 package com.example.lesson5.data
 
+import android.app.Application
 import android.content.Context
 import com.example.lesson5.model.Actor
 import com.example.lesson5.model.Genre
@@ -14,8 +15,9 @@ interface MovieRepository {
     suspend fun loadMovie(movieId: Int): Movie?
 }
 
-internal class JsonMovieRepository(private val context: Context) : MovieRepository {
+class JsonMovieRepository: MovieRepository {
     private val jsonFormat = Json { ignoreUnknownKeys = true }
+    private lateinit var context: Context
 
     private var movies: List<Movie>? = null
 
@@ -28,6 +30,10 @@ internal class JsonMovieRepository(private val context: Context) : MovieReposito
             movies = moviesFromJson
             moviesFromJson
         }
+    }
+
+    fun init(context: Context) {
+        this.context = context
     }
 
     private suspend fun loadMoviesFromJsonFile(): List<Movie> {

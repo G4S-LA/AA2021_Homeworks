@@ -1,30 +1,19 @@
 package com.example.lesson5
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lesson5.data.JsonMovieRepository
-import com.example.lesson5.data.MovieRepository
 import com.example.lesson5.model.Movie
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class MoviesViewModel: ViewModel() {
+class MoviesViewModel : ViewModel() {
     var moviesListLiveData: MutableLiveData<List<Movie>> = MutableLiveData()
-    private lateinit var repository: MovieRepository
-
-    fun getMoviesListObserver(): MutableLiveData<List<Movie>> {
-        return moviesListLiveData
-    }
-
-    fun setRepository(repository: MovieRepository) {
-        this.repository = repository
-    }
+        private set
 
     fun makeApiCall() {
-        viewModelScope.launch {
-            moviesListLiveData.postValue(repository.loadMovies())
+        CoroutineScope(viewModelScope.coroutineContext).launch {
+            moviesListLiveData.postValue(Repository.jsonMovieRepository?.loadMovies())
         }
     }
 }

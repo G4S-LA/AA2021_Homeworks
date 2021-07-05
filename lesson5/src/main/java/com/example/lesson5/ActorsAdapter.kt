@@ -45,7 +45,7 @@ class ActorsAdapter(val context: Context) : RecyclerView.Adapter<ActorsAdapter.V
             val requestOptions = RequestOptions().apply{
                 transform(CenterCrop(),RoundedCorners(20))
             }
-            Glide.with(context)
+            Glide.with(image.context)
                 .load(actor.imageUrl)
                 .apply(requestOptions)
                 .into(image)

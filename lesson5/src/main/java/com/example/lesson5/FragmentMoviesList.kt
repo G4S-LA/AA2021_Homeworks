@@ -15,11 +15,14 @@ import com.example.lesson5.model.Movie
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 
-class FragmentMoviesList(private val viewModel: MoviesViewModel) : Fragment(R.layout.fragment_movies_list) {
-
-    private val moviesAdapter: MoviesAdapter by lazy {
-        MoviesAdapter(requireContext(), listOf(), movieDetails)
+class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
+    private val viewModel: MoviesViewModel by lazy {
+        ViewModelProvider(this).get(MoviesViewModel::class.java)
     }
+
+    companion object { const val MOVIE = "movie" }
+
+    private val moviesAdapter: MoviesAdapter by lazy { MoviesAdapter(requireContext(), movieDetails) }
 
     private val rvMovies: RecyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.rv_movies).apply {
@@ -30,8 +33,11 @@ class FragmentMoviesList(private val viewModel: MoviesViewModel) : Fragment(R.la
 
     private val movieDetails = object : MoviesAdapter.OnMovieListener {
         override fun onClickMovie(movie: Movie) {
+
+            val fragment = FragmentMoviesDetails()
+            fragment.arguments = Bundle().apply { putSerializable(MOVIE, movie) }
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.main, FragmentMoviesDetails(movie))
+                .add(R.id.main, fragment)
                 .addToBackStack(null).commit()
         }
     }
@@ -40,8 +46,9 @@ class FragmentMoviesList(private val viewModel: MoviesViewModel) : Fragment(R.la
         super.onViewCreated(view, savedInstanceState)
 
         rvMovies.adapter = moviesAdapter
-        viewModel.moviesListLiveData.observe(requireActivity()) {
-            moviesAdapter.refresh(viewModel.getMoviesListObserver().value ?: listOf())
+        viewModel.makeApiCall()
+        viewModel.moviesListLiveData.observe(viewLifecycleOwner) {
+            moviesAdapter.refresh(it ?: listOf())
         }
     }
 

@@ -15,13 +15,13 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.lesson5.model.Movie
-import kotlinx.coroutines.Deferred
 
 class MoviesAdapter(
     private val context: Context,
-    private var movies: List<Movie>,
     private val listener: OnMovieListener
 ) : RecyclerView.Adapter<MoviesAdapter.ViewHolderMovie>() {
+
+    private var movies: List<Movie> = listOf()
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -57,6 +57,26 @@ class MoviesAdapter(
         }
 
         fun bind(movie: Movie) {
+            setViews(movie)
+
+            val requestOptions = RequestOptions().apply {
+                transform(CenterCrop(), RoundedCorners(16))
+            }
+            Glide.with(image.context)
+                .load(movie.imageUrl)
+                .apply(requestOptions)
+                .into(image)
+        }
+
+        override fun onClick(v: View?) {
+            val pos = adapterPosition
+
+            if (pos != RecyclerView.NO_POSITION) {
+                listener.onClickMovie(getItem(pos))
+            }
+        }
+
+        private fun setViews(movie: Movie) {
             genres.text = movie.genres.joinToString(separator = ", ") { it.name }
             name.text = movie.title
             age.text = movie.pgAge.toString().plus("+")
@@ -70,21 +90,6 @@ class MoviesAdapter(
                     ContextCompat.getColor(context, R.color.white)
                 }
             )
-            val requestOptions = RequestOptions().apply {
-                transform(CenterCrop(), RoundedCorners(16))
-            }
-            Glide.with(context)
-                .load(movie.imageUrl)
-                .apply(requestOptions)
-                .into(image)
-        }
-
-        override fun onClick(v: View?) {
-            val pos = adapterPosition
-
-            if (pos != RecyclerView.NO_POSITION) {
-                listener.onClickMovie(getItem(pos))
-            }
         }
     }
 
