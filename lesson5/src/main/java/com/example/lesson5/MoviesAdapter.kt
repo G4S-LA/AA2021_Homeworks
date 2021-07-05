@@ -9,30 +9,40 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.content.contentValuesOf
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
+import com.example.lesson5.model.Movie
 
 class MoviesAdapter(
     private val context: Context,
-    var movies: List<Movie>,
     private val listener: OnMovieListener
 ) : RecyclerView.Adapter<MoviesAdapter.ViewHolderMovie>() {
+
+    private var movies: List<Movie> = listOf()
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     private fun getItem(position: Int): Movie = movies[position]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderMovie {
-        return ViewHolderMovie(inflater.inflate(R.layout.item_movie,parent, false))
+        return ViewHolderMovie(inflater.inflate(R.layout.item_movie, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolderMovie, position: Int) {
         holder.bind(getItem(position))
     }
 
+    fun refresh(moviesList: List<Movie>) {
+        movies = moviesList
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int = movies.size
 
-    inner class ViewHolderMovie(v : View) : RecyclerView.ViewHolder(v), View.OnClickListener {
+    inner class ViewHolderMovie(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
         private val image: ImageView = itemView.findViewById(R.id.iv_movie_1_list)
         private val genres: TextView = itemView.findViewById(R.id.tv_genre)
         private val name: TextView = itemView.findViewById(R.id.tv_film_name)
@@ -47,21 +57,15 @@ class MoviesAdapter(
         }
 
         fun bind(movie: Movie) {
-            genres.text = movie.genres
-            name.text = movie.name
-            age.text = movie.age
-            duration.text = movie.duration.toString().plus(" MIN")
-            numReviews.text = movie.numReviews.toString().plus(" REVIEWS")
-            rating.rating = movie.rating
-            favorite.setColorFilter(
-                if (movie.isFavorite) {
-                    ContextCompat.getColor(context ,R.color.pink)
-                } else {
-                    ContextCompat.getColor(context ,R.color.white)
-                }
-            )
-            image.setImageResource(movie.image)
+            setViews(movie)
 
+            val requestOptions = RequestOptions().apply {
+                transform(CenterCrop(), RoundedCorners(16))
+            }
+            Glide.with(image.context)
+                .load(movie.imageUrl)
+                .apply(requestOptions)
+                .into(image)
         }
 
         override fun onClick(v: View?) {
@@ -70,6 +74,22 @@ class MoviesAdapter(
             if (pos != RecyclerView.NO_POSITION) {
                 listener.onClickMovie(getItem(pos))
             }
+        }
+
+        private fun setViews(movie: Movie) {
+            genres.text = movie.genres.joinToString(separator = ", ") { it.name }
+            name.text = movie.title
+            age.text = movie.pgAge.toString().plus("+")
+            duration.text = movie.runningTime.toString().plus(" MIN")
+            numReviews.text = movie.reviewCount.toString().plus(" REVIEWS")
+            rating.rating = movie.rating.toFloat() / 2
+            favorite.setColorFilter(
+                if (movie.isLiked) {
+                    ContextCompat.getColor(context, R.color.pink)
+                } else {
+                    ContextCompat.getColor(context, R.color.white)
+                }
+            )
         }
     }
 

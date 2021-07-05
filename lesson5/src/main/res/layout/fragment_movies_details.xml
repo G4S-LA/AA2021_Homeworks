@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/back"
-    tools:context="com.example.lesson4.MainActivity">
+    android:overScrollMode="never"
+    tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,24 +28,25 @@
             app:layout_constraintGuide_end="16dp" />
 
         <ImageView
-            android:id="@+id/img_back"
+            android:id="@+id/iv_movie_details_image"
             android:layout_width="0dp"
             android:layout_height="227dp"
             android:scaleType="centerCrop"
             android:src="@drawable/back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
+            android:id="@+id/iv_mask"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/mask"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@+id/img_back"
-            app:layout_constraintEnd_toEndOf="@+id/img_back"
-            app:layout_constraintStart_toStartOf="@id/img_back"
-            app:layout_constraintTop_toTopOf="@+id/img_back" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_movie_details_image"
+            app:layout_constraintEnd_toEndOf="@+id/iv_movie_details_image"
+            app:layout_constraintStart_toStartOf="@id/iv_movie_details_image"
+            app:layout_constraintTop_toTopOf="@+id/iv_movie_details_image" />
 
         <ImageView
             android:id="@+id/iv_back_arrow"
@@ -74,8 +76,9 @@
             android:text="@string/age"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_film"
-            app:layout_constraintStart_toStartOf="@id/guideline_start" />
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@+id/tv_back" />
 
 
         <TextView
@@ -84,12 +87,11 @@
             android:layout_height="wrap_content"
             android:text="@string/film_name"
             android:textColor="@color/film_name"
-            android:textSize="59sp"
+            android:textSize="50sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/img_back"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@+id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/img_back" />
+            app:layout_constraintTop_toBottomOf="@id/tv_age" />
 
         <TextView
             android:id="@+id/tv_genre"
@@ -178,6 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:orientation="horizontal"
+            android:overScrollMode="never"
             app:layout_constraintEnd_toStartOf="@+id/guideline_end"
             app:layout_constraintStart_toEndOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/tv_cast"

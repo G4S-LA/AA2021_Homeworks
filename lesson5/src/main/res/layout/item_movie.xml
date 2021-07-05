@@ -22,23 +22,14 @@
         android:orientation="vertical"
         app:layout_constraintGuide_begin="6dp"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_bot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="48dp" />
-
-    <com.makeramen.roundedimageview.RoundedImageView
+    <ImageView
         android:id="@+id/iv_movie_1_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="1dp"
-        app:riv_corner_radius_top_left="6dp"
-        app:riv_corner_radius_top_right="6dp"
         android:scaleType="centerCrop"
         android:src="@drawable/movie_1_list"
-        app:layout_constraintBottom_toBottomOf="@id/guideline_bot"
+        app:layout_constraintBottom_toBottomOf="@id/rating"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +43,7 @@
         android:scaleType="centerCrop"
         android:layout_margin="1dp"
         android:src="@drawable/mask_1"
-        app:layout_constraintBottom_toBottomOf="@id/guideline_bot"
+        app:layout_constraintBottom_toBottomOf="@id/rating"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
@@ -90,15 +81,14 @@
 
     <TextView
         android:id="@+id/tv_genre"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="@string/genres"
         android:textColor="@color/pink"
-        android:gravity="left"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintBottom_toTopOf="@id/rating" />
+        app:layout_constraintBottom_toTopOf="@id/rating"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start" />
 
 
     <RatingBar
@@ -111,8 +101,9 @@
         android:progressTint="@color/pink"
         android:rating="4"
         android:stepSize="0.5"
+        android:layout_marginBottom="8dp"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintBottom_toBottomOf="@id/guideline_bot" />
+        app:layout_constraintBottom_toTopOf="@id/tv_film_name" />
 
     <TextView
         android:id="@+id/tv_num_reviews"
@@ -125,7 +116,8 @@
         android:textSize="8sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/rating"
-        app:layout_constraintTop_toTopOf="@id/rating" />
+        app:layout_constraintTop_toTopOf="@id/rating"
+        app:layout_constraintBottom_toBottomOf="@id/rating"/>
 
     <TextView
         android:id="@+id/tv_film_name"
@@ -135,9 +127,8 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline_bot"
-        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintBottom_toTopOf="@id/tv_duration"
         android:layout_marginTop="8dp" />
 
     <TextView
@@ -148,7 +139,8 @@
         android:textColor="@color/text_grey"
         android:textSize="8sp"
         android:text="@string/duration"
-        app:layout_constraintTop_toBottomOf="@id/tv_film_name"
-        app:layout_constraintStart_toStartOf="@id/tv_film_name" />
+        android:layout_marginBottom="12dp"
+        app:layout_constraintStart_toStartOf="@id/tv_film_name"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
