@@ -1,19 +1,12 @@
 package com.example.lesson5
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.ViewOutlineProvider
-import android.view.ViewPropertyAnimator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lesson5.data.JsonMovieRepository
-import com.example.lesson5.data.MovieRepository
 import com.example.lesson5.model.Movie
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val viewModel: MoviesViewModel by lazy {
@@ -48,7 +41,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         rvMovies.adapter = moviesAdapter
         viewModel.makeApiCall()
         viewModel.moviesListLiveData.observe(viewLifecycleOwner) {
-            moviesAdapter.refresh(it ?: listOf())
+            moviesAdapter.refresh(it ?: return@observe)
         }
     }
 
