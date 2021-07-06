@@ -1,4 +1,4 @@
-package com.example.lesson5
+package com.example.lesson5.ui.movieslist
 
 import android.os.Bundle
 import android.view.View
@@ -6,11 +6,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.lesson5.adapters.MoviesAdapter
+import com.example.lesson5.R
+import com.example.lesson5.adapters.SpacesItemDecoration
 import com.example.lesson5.model.Movie
+import com.example.lesson5.ui.moviesdetails.FragmentMoviesDetails
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
-    private val viewModel: MoviesViewModel by lazy {
-        ViewModelProvider(this).get(MoviesViewModel::class.java)
+    private val viewModelFragmentVM: FragmentMoviesListVM by lazy {
+        ViewModelProvider(this).get(FragmentMoviesListVM::class.java)
     }
 
     companion object { const val MOVIE = "movie" }
@@ -39,8 +43,8 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         super.onViewCreated(view, savedInstanceState)
 
         rvMovies.adapter = moviesAdapter
-        viewModel.makeApiCall()
-        viewModel.moviesListLiveData.observe(viewLifecycleOwner) {
+        viewModelFragmentVM.makeApiCall()
+        viewModelFragmentVM.moviesListLiveData.observe(viewLifecycleOwner) {
             moviesAdapter.refresh(it ?: return@observe)
         }
     }
