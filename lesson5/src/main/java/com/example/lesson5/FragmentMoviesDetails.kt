@@ -36,23 +36,15 @@ class FragmentMoviesDetails() : Fragment(R.layout.fragment_movies_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val movie = arguments?.get(FragmentMoviesList.MOVIE) as Movie
-        setViews(movie)
-
-        val requestOptions = RequestOptions().apply {
-            transform(CenterCrop(), RoundedCorners(16))
+        (arguments?.get(FragmentMoviesList.MOVIE) as? Movie)?.run {
+            setViews(this)
+            setGlide(this)
+            setAdapter(this)
         }
-        Glide.with(requireContext())
-            .load(movie.detailImageUrl)
-            .apply(requestOptions)
-            .into(image)
-        actorsAdapter.setList(movie.actors)
 
         tvBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
-
-        rvActors.adapter = actorsAdapter
     }
 
     private fun setViews(movie: Movie) {
@@ -63,5 +55,23 @@ class FragmentMoviesDetails() : Fragment(R.layout.fragment_movies_details) {
         tvNumReviews.text = movie.reviewCount.toString().plus(" REVIEWS")
         tvStoryLne.text = movie.storyLine
     }
+
+    private fun setGlide(movie: Movie) {
+        val requestOptions = RequestOptions().apply {
+            transform(CenterCrop(), RoundedCorners(16))
+        }
+
+        Glide.with(requireContext())
+            .load(movie.detailImageUrl)
+            .apply(requestOptions)
+            .into(image)
+    }
+
+    private fun setAdapter(movie: Movie) {
+        actorsAdapter.setList(movie.actors)
+        rvActors.adapter = actorsAdapter
+    }
+
+
 }
 
