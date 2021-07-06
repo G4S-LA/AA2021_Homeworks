@@ -1,4 +1,4 @@
-package com.example.lesson6.ui.movieslist
+package com.example.lesson6.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +12,7 @@ class FragmentMoviesListVM : ViewModel() {
     var moviesListLiveData: MutableLiveData<List<Movie>> = MutableLiveData()
         private set
 
-    fun makeApiCall() {
+    fun loadMovies() {
         CoroutineScope(viewModelScope.coroutineContext).launch {
             moviesListLiveData.postValue(MovieRepositoryImpl.loadMovies())
         }

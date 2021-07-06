@@ -6,6 +6,8 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,8 +18,14 @@ import com.example.lesson6.R
 import com.example.lesson6.adapters.ActorsAdapter
 import com.example.lesson6.model.Movie
 import com.example.lesson6.ui.movieslist.FragmentMoviesList
+import com.example.lesson6.viewmodels.FragmentMoviesDetailsVM
+import com.example.lesson6.viewmodels.FragmentMoviesListVM
 
-class FragmentMoviesDetails() : Fragment(R.layout.fragment_movies_details) {
+class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
+    private val fragmentDetailsVM: FragmentMoviesDetailsVM by lazy {
+        ViewModelProvider(this).get(FragmentMoviesDetailsVM::class.java)
+    }
+
     private val tvAge: TextView by lazy { requireView().findViewById<TextView>(R.id.tv_age) }
     private val tvFilm: TextView by lazy { requireView().findViewById<TextView>(R.id.tv_film) }
     private val tvGenre: TextView by lazy { requireView().findViewById<TextView>(R.id.tv_genre) }
@@ -36,15 +44,19 @@ class FragmentMoviesDetails() : Fragment(R.layout.fragment_movies_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (arguments?.get(FragmentMoviesList.MOVIE) as? Movie)?.run {
-            setViews(this)
-            setGlide(this)
-            setAdapter(this)
-        }
+        val id = arguments?.getInt(FragmentMoviesList.MOVIE_ID) ?: 0
+
+        fragmentDetailsVM.loadDetails(id)
 
         tvBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
+
+        fragmentDetailsVM.moviesListLiveData.observe(this, {
+            setViews(it)
+            setGlide(it)
+            setAdapter(it)
+        })
     }
 
     private fun setViews(movie: Movie) {
