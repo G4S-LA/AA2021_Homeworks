@@ -1,7 +1,9 @@
-package com.example.lesson5
+package com.example.lesson5.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.lesson5.ui.movieslist.FragmentMoviesList
+import com.example.lesson5.R
 import com.example.lesson5.data.MovieRepositoryImpl
 
 class MainActivity : AppCompatActivity() {

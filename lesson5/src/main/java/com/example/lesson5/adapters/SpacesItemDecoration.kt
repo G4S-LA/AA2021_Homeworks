@@ -1,4 +1,4 @@
-package com.example.lesson5
+package com.example.lesson5.adapters
 
 import android.graphics.Rect
 import android.view.View

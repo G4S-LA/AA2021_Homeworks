@@ -1,7 +1,6 @@
-package com.example.lesson5
+package com.example.lesson5.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.example.lesson5.R
 import com.example.lesson5.model.Movie
 
 class MoviesAdapter(

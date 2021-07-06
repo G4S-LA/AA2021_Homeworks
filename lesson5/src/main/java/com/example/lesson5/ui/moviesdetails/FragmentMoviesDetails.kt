@@ -1,10 +1,7 @@
-package com.example.lesson5
+package com.example.lesson5.ui.moviesdetails
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -15,6 +12,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.example.lesson5.adapters.ActorsAdapter
+import com.example.lesson5.ui.movieslist.FragmentMoviesList
+import com.example.lesson5.R
 import com.example.lesson5.model.Movie
 
 class FragmentMoviesDetails() : Fragment(R.layout.fragment_movies_details) {

@@ -1,4 +1,4 @@
-package com.example.lesson5
+package com.example.lesson5.ui.movieslist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import com.example.lesson5.model.Movie
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class MoviesViewModel : ViewModel() {
+class FragmentMoviesListVM : ViewModel() {
     var moviesListLiveData: MutableLiveData<List<Movie>> = MutableLiveData()
         private set
 
