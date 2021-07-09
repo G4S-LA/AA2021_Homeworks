@@ -11,13 +11,14 @@ import com.example.lesson6.adapters.MoviesAdapter
 import com.example.lesson6.adapters.SpacesItemDecoration
 import com.example.lesson6.model.Movie
 import com.example.lesson6.ui.moviesdetails.FragmentMoviesDetails
+import com.example.lesson6.viewmodels.FragmentMoviesListVM
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val viewModelFragmentVM: FragmentMoviesListVM by lazy {
         ViewModelProvider(this).get(FragmentMoviesListVM::class.java)
     }
 
-    companion object { const val MOVIE = "movie" }
+    companion object { const val MOVIE_ID = "movie_id" }
 
     private val moviesAdapter: MoviesAdapter by lazy { MoviesAdapter(requireContext(), movieDetails) }
 
@@ -32,7 +33,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         override fun onClickMovie(movie: Movie) {
 
             val fragment = FragmentMoviesDetails()
-            fragment.arguments = Bundle().apply { putSerializable(MOVIE, movie) }
+            fragment.arguments = Bundle().apply { putInt(MOVIE_ID, movie.id) }
             requireActivity().supportFragmentManager.beginTransaction()
                 .add(R.id.main, fragment)
                 .addToBackStack(null).commit()
@@ -43,7 +44,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         super.onViewCreated(view, savedInstanceState)
 
         rvMovies.adapter = moviesAdapter
-        viewModelFragmentVM.makeApiCall()
+        viewModelFragmentVM.loadMovies()
         viewModelFragmentVM.moviesListLiveData.observe(viewLifecycleOwner) {
             moviesAdapter.refresh(it ?: return@observe)
         }
