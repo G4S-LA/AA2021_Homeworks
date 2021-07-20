@@ -8,7 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitInstance {
 
     private const val BASE_URL = "https://api.themoviedb.org/3/"
-    const val API_KEY = "06d6cb823d6b37952d2dab5da2f365bf"
 
     private val logger by lazy {
         HttpLoggingInterceptor().apply {
@@ -16,7 +15,9 @@ object RetrofitInstance {
         }
     }
 
-    private val okHttp = OkHttpClient.Builder().addInterceptor(logger)
+    private val okHttp = OkHttpClient.Builder()
+        .addInterceptor(logger)
+        .addInterceptor(ApiKeyInterceptor())
 
     private val retrofit by lazy {
         Retrofit.Builder()
