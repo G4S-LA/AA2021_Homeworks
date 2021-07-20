@@ -16,7 +16,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.lesson7.ui.movieslist.FragmentMoviesList
 import com.example.lesson7.R
 import com.example.lesson7.adapters.ActorsAdapter
-import com.example.lesson7.model.Movie
+import com.example.lesson7.model.MovieDetails
 import com.example.lesson7.viewmodels.FragmentMoviesDetailsVM
 
 class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
@@ -50,23 +50,23 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             requireActivity().onBackPressed()
         }
 
-        fragmentDetailsVM.moviesListLiveData.observe(this, {
+        fragmentDetailsVM.movieDetailsLiveData.observe(this, {
             setViews(it)
             setGlide(it)
             setAdapter(it)
         })
     }
 
-    private fun setViews(movie: Movie) {
+    private fun setViews(movie: MovieDetails) {
         tvAge.text = movie.pgAge.toString().plus("+")
         tvFilm.text = movie.title
         tvGenre.text = movie.genres.joinToString(separator = ", ") { it.name }
-        rating.rating = movie.rating.toFloat() / 2
-        tvNumReviews.text = movie.reviewCount.toString().plus(" REVIEWS")
+        rating.rating = movie.rating
         tvStoryLne.text = movie.storyLine
+        tvNumReviews.text = movie.reviewCount.toString().plus(" REVIEWS")
     }
 
-    private fun setGlide(movie: Movie) {
+    private fun setGlide(movie: MovieDetails) {
         val requestOptions = RequestOptions().apply {
             transform(CenterCrop(), RoundedCorners(16))
         }
@@ -77,7 +77,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             .into(image)
     }
 
-    private fun setAdapter(movie: Movie) {
+    private fun setAdapter(movie: MovieDetails) {
         actorsAdapter.setList(movie.actors)
         rvActors.adapter = actorsAdapter
     }

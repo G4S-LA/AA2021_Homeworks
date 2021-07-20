@@ -81,8 +81,8 @@ class MoviesAdapter(
             name.text = movie.title
             age.text = movie.pgAge.toString().plus("+")
             duration.text = movie.runningTime.toString().plus(" MIN")
-            numReviews.text = movie.reviewCount.toString().plus(" REVIEWS")
-            rating.rating = movie.rating.toFloat() / 2
+            numReviews.text = movie.reviewCount.toString().plus("K REVIEWS")
+            rating.rating = movie.rating
             favorite.setColorFilter(
                 if (movie.isLiked) {
                     ContextCompat.getColor(context, R.color.pink)

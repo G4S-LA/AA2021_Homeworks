@@ -2,6 +2,7 @@ package com.example.lesson7.ui.movieslist
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -44,10 +45,14 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         super.onViewCreated(view, savedInstanceState)
 
         rvMovies.adapter = moviesAdapter
-        viewModelFragmentVM.loadMovies()
         viewModelFragmentVM.moviesListLiveData.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) showToast(R.string.bad_connection)
             moviesAdapter.refresh(it ?: return@observe)
         }
+    }
+
+    private fun showToast(resId: Int) {
+        Toast.makeText(requireContext(),getText(resId),Toast.LENGTH_SHORT).show()
     }
 
 }

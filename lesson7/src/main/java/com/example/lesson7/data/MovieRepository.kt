@@ -1,115 +1,72 @@
 package com.example.lesson7.data
 
 import android.annotation.SuppressLint
-import android.content.Context
-import com.example.lesson7.model.Actor
-import com.example.lesson7.model.Genre
-import com.example.lesson7.model.Movie
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
+import com.example.lesson7.api.RetrofitInstance.api
+import com.example.lesson7.api.RetrofitInstance.imageUrlAppender
+import com.example.lesson7.model.*
 
 interface MovieRepository {
-    suspend fun loadMovies(): List<Movie>
-    suspend fun loadMovie(movieId: Int): Movie?
+    suspend fun loadMovies(): Result<List<Movie>>
+    suspend fun loadMovieDetails(movieId: Int): Result<MovieDetails>
 }
+
+private const val ADULT_AGE = 16
+private const val CHILD_AGE = 13
 
 @SuppressLint("StaticFieldLeak")
 object MovieRepositoryImpl: MovieRepository {
-    private val jsonFormat = Json { ignoreUnknownKeys = true }
-    private var context: Context? = null
 
-    private var movies: List<Movie>? = null
-
-    override suspend fun loadMovies(): List<Movie> = withContext(Dispatchers.IO) {
-        val cachedMovies = movies
-        if (cachedMovies != null) {
-            cachedMovies
-        } else {
-            val moviesFromJson = loadMoviesFromJsonFile()
-            movies = moviesFromJson
-            moviesFromJson
-        }
+    override suspend fun loadMovies(): Result<List<Movie>> {
+        return runCatchingResult { getMovies() }
     }
 
-    fun init(context: Context) {
-        this.context = context
-    }
+    private suspend fun getMovies(): List<Movie> {
+        val genres = api.getGenres().genres
 
-    fun release() {
-        context = null
-    }
-
-    private suspend fun loadMoviesFromJsonFile(): List<Movie> {
-        val genresMap = loadGenres()
-        val actorsMap = loadActors()
-
-        val data = readAssetFileToString("data.json")
-        return parseMovies(data, genresMap, actorsMap)
-    }
-
-    private suspend fun loadGenres(): List<Genre> = withContext(Dispatchers.IO) {
-        val data = readAssetFileToString("genres.json")
-        val jsonGenres = jsonFormat.decodeFromString<List<JsonGenre>>(data)
-        jsonGenres.map { jsonGenre -> Genre(id = jsonGenre.id, name = jsonGenre.name) }
-    }
-
-    private fun readAssetFileToString(fileName: String): String {
-        return context?.assets?.open(fileName)?.bufferedReader()?.readText() ?: "{}"
-    }
-
-    private suspend fun loadActors(): List<Actor> = withContext(Dispatchers.IO) {
-        val data = readAssetFileToString("people.json")
-        val jsonActors = jsonFormat.decodeFromString<List<JsonActor>>(data)
-
-        jsonActors.map { jsonActor ->
-            Actor(
-                id = jsonActor.id,
-                name = jsonActor.name,
-                imageUrl = jsonActor.profilePicture
-            )
-        }
-    }
-
-    private fun parseMovies(
-        jsonString: String,
-        genreData: List<Genre>,
-        actors: List<Actor>
-    ): List<Movie> {
-        val genresMap = genreData.associateBy(Genre::id)
-        val actorsMap = actors.associateBy(Actor::id)
-
-        val jsonMovies = jsonFormat.decodeFromString<List<JsonMovie>>(jsonString)
-
-        return jsonMovies.map { jsonMovie ->
+        return api.getUpcomingMovies(page = 1).results.map { movie ->
             Movie(
-                id = jsonMovie.id,
-                title = jsonMovie.title,
-                storyLine = jsonMovie.overview,
-                imageUrl = jsonMovie.posterPicture,
-                detailImageUrl = jsonMovie.backdropPicture,
-                rating = (jsonMovie.ratings / 2).toInt(),
-                reviewCount = jsonMovie.votesCount,
-                pgAge = if (jsonMovie.adult) 16 else 13,
-                runningTime = jsonMovie.runtime,
-                genres = jsonMovie.genreIds.map { id ->
-                    genresMap[id].orThrow { IllegalArgumentException("Genre not found") }
-                },
-                actors = jsonMovie.actors.map { id ->
-                    actorsMap[id].orThrow { IllegalArgumentException("Actor not found") }
-                },
-                isLiked = false
+                id = movie.id,
+                title = movie.title,
+                imageUrl = imageUrlAppender.getMoviePosterImageUrl(movie.posterPath),
+                rating = movie.voteAverage / 2,
+                reviewCount = movie.voteCount,
+                pgAge = movie.adult.toSpectatorAge(),
+                runningTime = 100,
+                isLiked = false,
+                genres = genres
+                    .filter { genreResponse -> movie.genreIds.contains(genreResponse.id) }
+                    .map { genre -> Genre(genre.id, genre.name) },
             )
         }
     }
 
-    override suspend fun loadMovie(movieId: Int): Movie? {
-        val cachedMovies = movies ?: loadMovies()
-        return cachedMovies.find { it.id == movieId }
+    override suspend fun loadMovieDetails(movieId: Int): Result<MovieDetails> {
+        return runCatchingResult { getMovieDetails(movieId) }
     }
 
-    private fun <T : Any> T?.orThrow(createThrowable: () -> Throwable): T {
-        return this ?: throw createThrowable()
+    private suspend fun getMovieDetails(movieId: Int): MovieDetails {
+        val details = api.getMovieDetails(movieId)
+
+        return MovieDetails(
+            id = details.id,
+            pgAge = details.adult.toSpectatorAge(),
+            title = details.title,
+            genres = details.genres.map { Genre(it.id, it.name) },
+            reviewCount = details.revenue,
+            isLiked = false,
+            rating = details.voteAverage / 2,
+            detailImageUrl = imageUrlAppender.getDetailImageUrl(details.backdropPath),
+            storyLine = details.overview.orEmpty(),
+            actors = api.getMovieCredit(movieId).casts.map { actor ->
+                Actor(
+                    id = actor.id,
+                    name = actor.name,
+                    imageUrl = imageUrlAppender.getActorImageUrl(actor.profilePath)
+                )
+            }
+        )
     }
+
 }
+
+private fun Boolean.toSpectatorAge(): Int = if (this) ADULT_AGE else CHILD_AGE
