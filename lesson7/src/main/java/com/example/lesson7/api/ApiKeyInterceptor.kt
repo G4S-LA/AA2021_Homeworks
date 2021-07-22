@@ -1,12 +1,14 @@
 package com.example.lesson7.api
 
+import com.example.lesson7.BuildConfig
+import com.example.lesson7.api.ApiKeyInterceptor.Companion.API_KEY
 import okhttp3.Interceptor
 import okhttp3.Response
 
 class ApiKeyInterceptor: Interceptor {
 
     companion object {
-        private const val API_KEY = "06d6cb823d6b37952d2dab5da2f365bf"
+        private const val API_KEY = BuildConfig.API_KEY
     }
 
     override fun intercept(chain: Interceptor.Chain): Response {

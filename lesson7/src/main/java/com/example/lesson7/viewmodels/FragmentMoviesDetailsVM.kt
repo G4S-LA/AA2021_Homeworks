@@ -25,20 +25,26 @@ class FragmentMoviesDetailsVM : ViewModel() {
     private fun handleResult(result: Result<MovieDetails?>) {
         when (result) {
             is Success -> handleMovieLoadResult(result.data)
-            is Failure -> movieDetailsLiveData.postValue(MovieDetails(0,0,"",
-                emptyList(),0,false,0.0f,null,"",
-                emptyList()))
+            is Failure -> movieDetailsLiveData.postValue(
+                MovieDetails(
+                    0, 0, "",
+                    emptyList(), 0, false, 0.0f, null, "",
+                    emptyList()
+                )
+            )
         }
     }
 
     private fun handleMovieLoadResult(movie: MovieDetails?) {
-        if (movie != null) {
-            movieDetailsLiveData.postValue(movie)
-        } else {
-            movieDetailsLiveData.postValue(MovieDetails(0,0,"",
-                emptyList(),0,false,0.0f,null,"",
-                emptyList()))
-        }
+
+        movieDetailsLiveData.postValue(
+            movie ?: MovieDetails(
+                0, 0, "",
+                emptyList(), 0, false, 0.0f, null, "",
+                emptyList()
+            )
+        )
+
     }
 
 }

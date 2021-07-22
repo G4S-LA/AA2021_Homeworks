@@ -11,45 +11,42 @@ private const val IDENTIFIER_LARGE_SIZE = "w780"
 class ImageUrlAppender {
 
     private var imageResponse: ImageResponse? = null
-    private var baseUrl: String? = null
-    private lateinit var posterSize: String
-    private lateinit var backdropSize: String
-    private lateinit var profileSize: String
+    private var baseUrl: String = ""
+    private var posterSize: String = ""
+    private var backdropSize: String = ""
+    private var profileSize: String = ""
 
-    suspend fun getDetailImageUrl(backdropPath: String?): String? {
-        loadConfiguration()
-
-        return buildUrl(baseUrl, backdropSize, backdropPath)
+    enum class Size {
+        POSTER,
+        BACKDROP,
+        PROFILE
     }
 
-    suspend fun getActorImageUrl(actorProfilePath: String?): String? {
+    suspend fun getImageUrl(path: String, size: Size): String? {
         loadConfiguration()
 
-        return buildUrl(baseUrl, profileSize, actorProfilePath)
-    }
-
-    suspend fun getMoviePosterImageUrl(moviePosterPath: String?): String? {
-        loadConfiguration()
-
-        return buildUrl(baseUrl, posterSize, moviePosterPath)
+        return when (size) {
+            Size.POSTER -> buildUrl(baseUrl, posterSize, path)
+            Size.BACKDROP -> buildUrl(baseUrl, backdropSize, path)
+            else -> buildUrl(baseUrl, profileSize, path)
+        }
     }
 
     private suspend fun loadConfiguration() {
         if (imageResponse != null) return
 
         imageResponse = api.getConfiguration().images
-        baseUrl = imageResponse?.secureBaseUrl
-        posterSize = imageResponse?.posterSizes?.find { size -> size == IDENTIFIER_MEDIUM_SIZE } ?: DEFAULT_SIZE
-        backdropSize = imageResponse?.backdropSizes?.find { size -> size == IDENTIFIER_LARGE_SIZE } ?: DEFAULT_SIZE
-        profileSize = imageResponse?.profileSizes?.find { size -> size == IDENTIFIER_SMALL_SIZE } ?: DEFAULT_SIZE
+        baseUrl = imageResponse?.secureBaseUrl.toString()
+        posterSize = imageResponse?.posterSizes?.find { size -> size == IDENTIFIER_MEDIUM_SIZE }
+            ?: DEFAULT_SIZE
+        backdropSize = imageResponse?.backdropSizes?.find { size -> size == IDENTIFIER_LARGE_SIZE }
+            ?: DEFAULT_SIZE
+        profileSize = imageResponse?.profileSizes?.find { size -> size == IDENTIFIER_SMALL_SIZE }
+            ?: DEFAULT_SIZE
     }
 
-    private fun buildUrl(url: String?, size: String, path: String?): String? {
-        return if (url == null || path == null) {
-            null
-        } else {
-            return "$url$size$path"
-        }
-    }
+    private fun buildUrl(url: String, size: String, path: String) =
+        if (url.isEmpty() || path.isEmpty()) null
+        else "$url$size$path"
 
 }

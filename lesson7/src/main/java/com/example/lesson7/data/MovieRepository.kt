@@ -1,6 +1,7 @@
 package com.example.lesson7.data
 
 import android.annotation.SuppressLint
+import com.example.lesson7.api.ImageUrlAppender.Size
 import com.example.lesson7.api.RetrofitInstance.api
 import com.example.lesson7.api.RetrofitInstance.imageUrlAppender
 import com.example.lesson7.model.*
@@ -14,7 +15,7 @@ private const val ADULT_AGE = 16
 private const val CHILD_AGE = 13
 
 @SuppressLint("StaticFieldLeak")
-object MovieRepositoryImpl: MovieRepository {
+object MovieRepositoryImpl : MovieRepository {
 
     override suspend fun loadMovies(): Result<List<Movie>> {
         return runCatchingResult { getMovies() }
@@ -27,7 +28,7 @@ object MovieRepositoryImpl: MovieRepository {
             Movie(
                 id = movie.id,
                 title = movie.title,
-                imageUrl = imageUrlAppender.getMoviePosterImageUrl(movie.posterPath),
+                imageUrl = imageUrlAppender.getImageUrl(movie.posterPath, Size.POSTER),
                 rating = movie.voteAverage / 2,
                 reviewCount = movie.voteCount,
                 pgAge = movie.adult.toSpectatorAge(),
@@ -55,13 +56,16 @@ object MovieRepositoryImpl: MovieRepository {
             reviewCount = details.revenue,
             isLiked = false,
             rating = details.voteAverage / 2,
-            detailImageUrl = imageUrlAppender.getDetailImageUrl(details.backdropPath),
+            detailImageUrl = imageUrlAppender.getImageUrl(
+                details.backdropPath ?: "",
+                Size.BACKDROP
+            ),
             storyLine = details.overview.orEmpty(),
             actors = api.getMovieCredit(movieId).casts.map { actor ->
                 Actor(
                     id = actor.id,
                     name = actor.name,
-                    imageUrl = imageUrlAppender.getActorImageUrl(actor.profilePath)
+                    imageUrl = imageUrlAppender.getImageUrl(actor.profilePath ?: "", Size.PROFILE)
                 )
             }
         )
