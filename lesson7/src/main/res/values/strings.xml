@@ -16,4 +16,5 @@
     <string name="thor">Chris Hemsworth</string>
     <string name="duration">MIN</string>
     <string name="movies_list">Movies list</string>
+    <string name="bad_connection">Bad internet connection</string>
 </resources>
