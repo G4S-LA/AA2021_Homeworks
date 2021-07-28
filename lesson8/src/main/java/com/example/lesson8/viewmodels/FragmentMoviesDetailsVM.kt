@@ -18,7 +18,7 @@ class FragmentMoviesDetailsVM : ViewModel() {
         viewModelScope.launch {
             val movie = MovieRepositoryImpl.loadMovieDetails(movieId)
 
-            handleResult(movie)
+           // handleResult(movie)
         }
     }
 
