@@ -5,17 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lesson8.data.MovieRepositoryImpl
+import com.example.lesson8.data.db.entities.MovieEntity
 import com.example.lesson8.model.*
 import kotlinx.coroutines.launch
 
 class FragmentMoviesListVM : ViewModel() {
-    val moviesListLiveData: LiveData<List<Movie>> = MovieRepositoryImpl.localMovies
+    val moviesListLiveData: LiveData<List<MovieEntity>> = MovieRepositoryImpl.localMovies
 
     init {
-        //loadMovies()
-        viewModelScope.launch {
-            MovieRepositoryImpl.insert()
-        }
+        loadMovies()
     }
 
     private fun loadMovies() {
@@ -23,4 +21,6 @@ class FragmentMoviesListVM : ViewModel() {
             MovieRepositoryImpl.loadMovies()
         }
     }
+
+
 }

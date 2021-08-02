@@ -1,5 +1,7 @@
 package com.example.lesson8.model
 
+import com.example.lesson8.App.Companion.gson
+import com.example.lesson8.data.db.entities.MovieEntity
 import java.io.Serializable
 
 data class Movie(
@@ -12,4 +14,16 @@ data class Movie(
     val isLiked: Boolean,
     val rating: Float,
     val imageUrl: String?
-) : Serializable
+) : Serializable {
+    fun toMovieEntity() = MovieEntity(
+        id = id,
+        pgAge = pgAge,
+        title = title,
+        genreEntities = gson.toJson(genres),
+        runningTime = runningTime,
+        reviewCount = reviewCount,
+        isLiked = isLiked,
+        rating = rating,
+        imageUrl = imageUrl
+    )
+}

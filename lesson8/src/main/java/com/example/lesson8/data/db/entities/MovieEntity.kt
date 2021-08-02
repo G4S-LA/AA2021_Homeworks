@@ -3,7 +3,7 @@ package com.example.lesson8.data.db.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.lesson8.App.Companion.gson
-import com.example.lesson8.App.Companion.generator
+import com.example.lesson8.App.Companion.generatorGenre
 import com.example.lesson8.model.Movie
 import java.io.Serializable
 
@@ -25,7 +25,7 @@ data class MovieEntity(
         id = id,
         pgAge = pgAge,
         title = title,
-        genres = gson.fromJson(genreEntities, generator),
+        genres = gson.fromJson(genreEntities, generatorGenre),
         runningTime = runningTime,
         reviewCount = reviewCount,
         isLiked = isLiked,

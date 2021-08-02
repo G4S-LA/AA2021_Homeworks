@@ -4,13 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.lesson8.model.Actor
-import com.example.lesson8.model.Genre
-import com.example.lesson8.model.Movie
-import com.example.lesson8.model.MovieDetails
+import com.example.lesson8.data.db.entities.GenreEntity
+import com.example.lesson8.data.db.entities.MovieDetailsEntity
+import com.example.lesson8.data.db.entities.MovieEntity
 
 
-@Database(entities = [Movie::class, MovieDetails::class, Actor::class, Genre::class], version = 1)
+@Database(entities = [MovieEntity::class, MovieDetailsEntity::class, GenreEntity::class], version = 1)
 abstract class MoviesDatabase : RoomDatabase() {
 
     abstract fun moviesDao(): MoviesDao

@@ -6,4 +6,4 @@ import java.io.Serializable
 data class MovieCastResponse(
     @SerializedName("id") val id: Int,
     @SerializedName("cast") val casts: List<CastResponse>,
-): Serializable
+) : Serializable

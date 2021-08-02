@@ -1,15 +1,13 @@
 package com.example.lesson8.data
 
 import android.content.Context
-import com.example.lesson8.App.Companion.appContext
+import com.example.lesson8.App.Companion.gson
 import com.example.lesson8.api.ImageUrlAppender.Size
 import com.example.lesson8.api.RetrofitInstance.api
 import com.example.lesson8.api.RetrofitInstance.imageUrlAppender
 import com.example.lesson8.data.db.MoviesDatabase
-import com.example.lesson8.data.response.CastResponse
-import com.example.lesson8.data.response.GenreResponse
-import com.example.lesson8.data.response.MovieDetailsResponse
-import com.example.lesson8.data.response.MovieResponse
+import com.example.lesson8.data.db.entities.*
+import com.example.lesson8.data.response.*
 import com.example.lesson8.model.*
 
 interface MovieRepository {
@@ -23,86 +21,51 @@ private const val CHILD_AGE = 13
 object MovieRepositoryImpl : MovieRepository {
 
     private lateinit var database: MoviesDatabase
-    val localMovies = database.moviesDao().getAllMovies()
-    val localGenres = database.moviesDao().getAllGenres()
-    val localActors = database.moviesDao().getAllActors()
-    val localMovieDetails = database.moviesDao().getAllMoviesDetails()
-
-    suspend fun insert(){
-        database.moviesDao().insertMovies(listOf(
-            Movie(
-            10,
-            0,
-            "",
-            listOf(Genre(1,"test")),
-                0,
-                0,
-                false,
-                0f,
-            null)
-        ))
-    }
+    val localMovies by lazy { database.moviesDao().getAllMovies() }
+    private val localGenres by lazy { database.moviesDao().getAllGenres() }
 
     override suspend fun loadMovies() {
-        loadGenres()
-        val movies = getMovies()
-        database.moviesDao().insertMovies(movies)
-    }
-
-    private suspend fun loadGenres() {
-        val result = runCatchingResult { api.getGenres() }
+        val result = runCatchingResult { getMovies() }
 
         if (result is Success) {
-            val genres = result.data.genres.map { genreResponseToGenre(it) }
-            database.moviesDao().insertGenres(genres)
+            val movies = result.data
+            database.moviesDao().insertMovies(movies.map { it.toMovieEntity() })
         }
     }
 
     private suspend fun getMovies(): List<Movie> {
+        loadGenres()
+
         return api.getUpcomingMovies(page = 1).results.map { movie ->
-            movieResponseToMovie(movie, localGenres.value?: emptyList())
+            movieResponseToMovie(movie, localGenres.value?.map { it.toGenre() } ?: emptyList())
         }
+    }
+
+    private suspend fun loadGenres() {
+        val genres = api.getGenres().genres.map { it.toGenreEntity() }
+        database.moviesDao().insertGenres(genres)
     }
 
     override suspend fun loadMovieDetails(movieId: Int) {
-        loadActors(movieId)
         val result = runCatchingResult { getMovieDetails(movieId) }
 
-        if(result is Success) {
-
-        }
-    }
-
-    private suspend fun loadActors(movieId: Int) {
-        val result = runCatchingResult { api.getMovieCredit(movieId) }
-
         if (result is Success) {
-            val actors = result.data.casts.map { actorResponseToActor(it) }
-            database.moviesDao().insertActors(actors)
+            database.moviesDao().insertMovieDetails(result.data)
         }
     }
 
-
-    private suspend fun getMovieDetails(movieId: Int): MovieDetails {
+    private suspend fun getMovieDetails(movieId: Int): MovieDetailsEntity {
         val details = api.getMovieDetails(movieId)
+        val actors = api.getMovieCredit(movieId)
 
-        return detailsResponseToMovieDetails(details) /*MovieDetails(
-            10,
-            0,
-            "",
-            listOf(Genre(1,"test")),
-            0,
-            false,
-            0f,
-            null,
-        "",
-        emptyList())*/
+        return detailsResponseToMovieDetailsEntity(details, actors)
     }
-
 
     fun createDatabase(context: Context) {
         database = MoviesDatabase.getInstance(context)
     }
+
+    fun getLocalMovieDetails(id: Int) = database.moviesDao().getMovieDetails(id)
 
 }
 
@@ -120,19 +83,20 @@ suspend fun movieResponseToMovie(movie: MovieResponse, genres: List<Genre>) = Mo
     genres = genres.filter { genre -> movie.genreIds.contains(genre.id) }
 )
 
-fun genreResponseToGenre(genre: GenreResponse) = Genre(genre.id, genre.name)
-
-suspend fun actorResponseToActor(actor: CastResponse) = Actor(
+suspend fun actorResponseToActorEntity(actor: CastResponse) = Actor(
     id = actor.id,
     name = actor.name,
     imageUrl = imageUrlAppender.getImageUrl(actor.profilePath ?: "", Size.PROFILE)
 )
 
-suspend fun detailsResponseToMovieDetails(details: MovieDetailsResponse) = MovieDetails(
+suspend fun detailsResponseToMovieDetailsEntity(
+    details: MovieDetailsResponse,
+    actors: MovieCastResponse
+) = MovieDetailsEntity(
     id = details.id,
     pgAge = details.adult.toSpectatorAge(),
     title = details.title,
-    genres = details.genres.map { Genre(it.id, it.name) },
+    genres = gson.toJson(details.genres),
     reviewCount = details.revenue,
     isLiked = false,
     rating = details.voteAverage / 2,
@@ -141,11 +105,5 @@ suspend fun detailsResponseToMovieDetails(details: MovieDetailsResponse) = Movie
         Size.BACKDROP
     ),
     storyLine = details.overview.orEmpty(),
-    actors =  .casts.map { actor ->
-        Actor(
-            id = actor.id,
-            name = actor.name,
-            imageUrl = imageUrlAppender.getImageUrl(actor.profilePath ?: "", Size.PROFILE)
-        )
-    }
+    actors = gson.toJson(actors.casts.map { actorResponseToActorEntity(it) })
 )

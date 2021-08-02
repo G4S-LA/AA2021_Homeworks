@@ -1,7 +1,6 @@
 package com.example.lesson8.data.db.entities
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.example.lesson8.model.Genre
 import java.io.Serializable
