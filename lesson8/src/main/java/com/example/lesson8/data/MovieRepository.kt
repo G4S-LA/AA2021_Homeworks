@@ -9,6 +9,7 @@ import com.example.lesson8.data.db.MoviesDatabase
 import com.example.lesson8.data.db.entities.*
 import com.example.lesson8.data.response.*
 import com.example.lesson8.model.*
+import kotlinx.coroutines.Dispatchers
 
 interface MovieRepository {
     suspend fun loadMovies()
@@ -21,8 +22,8 @@ private const val CHILD_AGE = 13
 object MovieRepositoryImpl : MovieRepository {
 
     private lateinit var database: MoviesDatabase
-    val localMovies by lazy { database.moviesDao().getAllMovies() }
-    private val localGenres by lazy { database.moviesDao().getAllGenres() }
+    val localMovies by lazy(Dispatchers.IO) { database.moviesDao().getAllMovies() }
+    private val localGenres by lazy(Dispatchers.IO) { database.moviesDao().getAllGenres() }
 
     override suspend fun loadMovies() {
         val result = runCatchingResult { getMovies() }

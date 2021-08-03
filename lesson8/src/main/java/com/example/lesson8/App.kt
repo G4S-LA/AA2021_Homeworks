@@ -11,7 +11,6 @@ import com.google.gson.reflect.TypeToken
 class App: Application() {
 
     companion object {
-        var appContext: Context? = null
         val gson = Gson()
         val generatorGenre = object : TypeToken<List<Genre>>() {}.type!!
         val generatorActor = object : TypeToken<List<Actor>>() {}.type!!
