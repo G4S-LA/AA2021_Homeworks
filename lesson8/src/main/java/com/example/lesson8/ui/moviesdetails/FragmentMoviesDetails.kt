@@ -51,9 +51,12 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         }
 
         fragmentDetailsVM.movieDetailsLiveData.observe(this, {
-            setViews(it)
-            setGlide(it)
-            setAdapter(it)
+            it?.run {
+                val movie = it.toMovieDetails()
+                setViews(movie)
+                setGlide(movie)
+                setAdapter(movie)
+            }
         })
     }
 

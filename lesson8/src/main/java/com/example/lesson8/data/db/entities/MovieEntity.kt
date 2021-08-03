@@ -1,25 +1,31 @@
-package com.example.lesson8.model
+package com.example.lesson8.data.db.entities
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.lesson8.App.Companion.gson
-import com.example.lesson8.data.db.entities.MovieEntity
+import com.example.lesson8.App.Companion.generatorGenre
+import com.example.lesson8.model.Movie
 import java.io.Serializable
 
-data class Movie(
+@Entity(tableName = "movies_table")
+data class MovieEntity(
+    @PrimaryKey
     val id: Int,
     val pgAge: Int,
     val title: String,
-    val genres: List<Genre>,
+    val genreEntities: String,
     val runningTime: Int,
     val reviewCount: Int,
     val isLiked: Boolean,
     val rating: Float,
     val imageUrl: String?
 ) : Serializable {
-    fun toMovieEntity() = MovieEntity(
+
+    fun toMovie() = Movie(
         id = id,
         pgAge = pgAge,
         title = title,
-        genreEntities = gson.toJson(genres),
+        genres = gson.fromJson(genreEntities, generatorGenre),
         runningTime = runningTime,
         reviewCount = reviewCount,
         isLiked = isLiked,

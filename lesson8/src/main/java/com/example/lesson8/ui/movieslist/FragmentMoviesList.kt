@@ -47,7 +47,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         rvMovies.adapter = moviesAdapter
         viewModelFragmentVM.moviesListLiveData.observe(viewLifecycleOwner) {
             if (it.isEmpty()) showToast(R.string.bad_connection)
-            moviesAdapter.refresh(it ?: return@observe)
+            moviesAdapter.refresh(it.map { movieEntity ->  movieEntity.toMovie() })
         }
     }
 
