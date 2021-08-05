@@ -7,6 +7,9 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+    def localProperties = new Properties()
+    localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
     defaultConfig {
         applicationId "com.example.lesson1"
         minSdkVersion 23
@@ -14,7 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField("String", "API_KEY", API_KEY)
+        buildConfigField "String", "API_KEY", localProperties['API_KEY']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
