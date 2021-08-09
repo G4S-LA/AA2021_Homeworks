@@ -3,8 +3,8 @@ package com.example.lesson9.background
 import android.content.Context
 import androidx.work.*
 import com.example.lesson9.App
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.example.lesson9.App.Companion.SYNC_ID
+import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
 class SyncMoviesWorker(context: Context, workerParameters: WorkerParameters) :
@@ -33,14 +33,14 @@ class SyncMoviesWorker(context: Context, workerParameters: WorkerParameters) :
 
         fun sync(context: Context) {
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                    "sync",
+                    SYNC_ID,
                     ExistingPeriodicWorkPolicy.REPLACE,
                     periodicWorkRequest
             )
         }
     }
 
-    private fun tryToSync() = GlobalScope.launch {
+    private fun tryToSync() = CoroutineScope(Job() + Dispatchers.IO).launch {
         App.synchronizer.sync()
     }
 }
