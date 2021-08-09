@@ -2,6 +2,8 @@ package com.example.lesson9
 
 import android.app.Application
 import android.content.Context
+import com.example.lesson9.background.SyncMovies
+import com.example.lesson9.background.SyncMoviesImpl
 import com.example.lesson9.data.MovieRepositoryImpl
 import com.example.lesson9.model.Actor
 import com.example.lesson9.model.Genre
@@ -14,6 +16,7 @@ class App: Application() {
         val gson = Gson()
         val generatorGenre = object : TypeToken<List<Genre>>() {}.type!!
         val generatorActor = object : TypeToken<List<Actor>>() {}.type!!
+        val synchronizer: SyncMovies = SyncMoviesImpl()
     }
 
     override fun onCreate() {

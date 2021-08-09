@@ -3,6 +3,8 @@ package com.example.lesson9.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.lesson9.R
+import com.example.lesson9.background.SyncMoviesImpl
+import com.example.lesson9.background.SyncMoviesWorker
 import com.example.lesson9.ui.movieslist.FragmentMoviesList
 
 class MainActivity : AppCompatActivity() {
@@ -17,5 +19,10 @@ class MainActivity : AppCompatActivity() {
                 .add(R.id.main_container, FragmentMoviesList())
                 .commit()
         }
+    }
+    override fun onStop() {
+        super.onStop()
+
+        SyncMoviesWorker.sync(applicationContext)
     }
 }
