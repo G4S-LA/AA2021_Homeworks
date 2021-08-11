@@ -1,9 +1,12 @@
 package com.example.lesson10.background
 
 import android.content.Context
+import android.util.Log
 import androidx.work.*
 import com.example.lesson10.App
 import com.example.lesson10.App.Companion.SYNC_ID
+import com.example.lesson10.notifications.NewMovieNotification
+import com.example.lesson10.notifications.Notification
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
@@ -13,6 +16,7 @@ class SyncMoviesWorker(context: Context, workerParameters: WorkerParameters) :
     override fun doWork(): Result {
         return try {
             tryToSync()
+            Log.v("-§----------", "Success")
             Result.success()
         } catch (e: Exception) {
             Result.failure()
@@ -27,7 +31,7 @@ class SyncMoviesWorker(context: Context, workerParameters: WorkerParameters) :
 
         private val periodicWorkRequest =
                 PeriodicWorkRequest.Builder(SyncMoviesWorker::class.java, 8, TimeUnit.HOURS)
-                        .setInitialDelay(1, TimeUnit.MINUTES)
+                        .setInitialDelay(20, TimeUnit.SECONDS)
                         .setConstraints(constraints)
                         .build()
 
@@ -37,10 +41,13 @@ class SyncMoviesWorker(context: Context, workerParameters: WorkerParameters) :
                     ExistingPeriodicWorkPolicy.REPLACE,
                     periodicWorkRequest
             )
+            Log.v("-§----------", "Worker start")
         }
     }
 
     private fun tryToSync() = CoroutineScope(Dispatchers.IO).launch {
-        App.synchronizer.sync()
+        val newMovie = App.synchronizer.sync()
+
+        NewMovieNotification().show(applicationContext, newMovie)
     }
 }

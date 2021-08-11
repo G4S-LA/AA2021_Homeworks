@@ -2,12 +2,12 @@ package com.example.lesson10.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.widget.SwitchCompat
 import androidx.work.WorkManager
 import com.example.lesson10.App.Companion.PREFERENCE_SYNC
 import com.example.lesson10.App.Companion.SYNC_ID
 import com.example.lesson10.R
-import com.example.lesson10.background.SyncMoviesImpl
 import com.example.lesson10.background.SyncMoviesWorker
 import com.example.lesson10.ui.movieslist.FragmentMoviesList
 
