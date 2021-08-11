@@ -5,12 +5,13 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.net.toUri
 import com.bumptech.glide.Glide
+import com.example.lesson10.App.Companion.PATH
+import com.example.lesson10.App.Companion.SCHEMA
 import com.example.lesson10.R
 import com.example.lesson10.data.db.entities.MovieEntity
 import com.example.lesson10.ui.main.MainActivity
@@ -18,20 +19,22 @@ import java.util.*
 
 class NewMovieNotification: Notification {
     private val channelId = "NEW_MOVIE"
-//    private val tag = "NEW_MOVIE"
 
     override fun show(context: Context, movie: MovieEntity?) {
-        val intent = Intent(context, MainActivity::class.java)
+        val uri = "$SCHEMA$PATH${movie?.id}".toUri()
+        val intent = Intent(context, MainActivity::class.java).apply {
+            action = Intent.ACTION_VIEW
+            data = uri
+        }
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         movie?.run {
             createNotificationChannel(context)
-            Log.v("-§-------", movie.toString())
             val notification = NotificationCompat.Builder(context, channelId)
-                    .setContentTitle(title)
-                    .setContentText(context.getString(R.string.new_movie_notification_text))
+                    .setContentTitle(context.getString(R.string.new_movie_notification_text))
+                    .setContentText(title)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentIntent(pendingIntent)
                     .setWhen(Calendar.getInstance().timeInMillis)
@@ -42,13 +45,11 @@ class NewMovieNotification: Notification {
                             .submit()
                             .get())
                     .build()
-            Log.v("-§-------", "Build")
             NotificationManagerCompat.from(context).notify(4, notification)
-            Log.v("-§-------", "Done")
         }
     }
 
-    fun createNotificationChannel(context: Context) {
+    private fun createNotificationChannel(context: Context) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val mChannel = NotificationChannel(

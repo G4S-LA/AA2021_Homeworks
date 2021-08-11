@@ -1,7 +1,6 @@
 package com.example.lesson10.data
 
 import android.content.Context
-import android.util.Log
 import com.example.lesson10.App.Companion.gson
 import com.example.lesson10.api.ImageUrlAppender.Size
 import com.example.lesson10.api.RetrofitInstance.api
@@ -36,7 +35,6 @@ object MovieRepositoryImpl : MovieRepository {
         if (result is Success) {
             val movies = result.data
             database.moviesDao().insertMovies(movies.map { it.toMovieEntity() })
-            Log.v("-§----------", "VALUE = $movies")
         }
     }
 
@@ -79,15 +77,14 @@ object MovieRepositoryImpl : MovieRepository {
         val result = runCatchingResult { getMovies() }
 
         if (result is Success) {
+            CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+                result.data.forEach { loadMovieDetails(it.id) }
+            }
             val movies = result.data.map { it.toMovieEntity() }
             database.moviesDao().insertMovies(movies)
 
             val newVersion: Map<Int, MovieEntity> = movies.associateBy { it.id }
-            Log.v("-§----------", "New = $newVersion")
-
             val newMovies = oldVersion?.filterNot { newVersion.containsKey(it.key) } ?: newVersion
-            Log.v("-§----------", "Value = $newMovies")
-            Log.v("-§----------", "Value = ${newMovies.maxByOrNull { it.value.rating }?.value}")
             return newMovies.maxByOrNull { it.value.rating }?.value
 
         }
