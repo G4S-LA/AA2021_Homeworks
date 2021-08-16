@@ -12,6 +12,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/lesson1" />
+            <option value="$PROJECT_DIR$/lesson10" />
+            <option value="$PROJECT_DIR$/lesson11" />
             <option value="$PROJECT_DIR$/lesson2" />
             <option value="$PROJECT_DIR$/lesson3" />
             <option value="$PROJECT_DIR$/lesson4" />
@@ -20,7 +22,6 @@
             <option value="$PROJECT_DIR$/lesson7" />
             <option value="$PROJECT_DIR$/lesson8" />
             <option value="$PROJECT_DIR$/lesson9" />
-            <option value="$PROJECT_DIR$/lesson10" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
