@@ -77,7 +77,7 @@ object MovieRepositoryImpl : MovieRepository {
         val result = runCatchingResult { getMovies() }
 
         if (result is Success) {
-            CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 result.data.forEach { loadMovieDetails(it.id) }
             }
             val movies = result.data.map { it.toMovieEntity() }
