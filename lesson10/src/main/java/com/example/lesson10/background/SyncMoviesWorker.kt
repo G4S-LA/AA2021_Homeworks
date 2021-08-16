@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.*
 import com.example.lesson10.App
 import com.example.lesson10.App.Companion.SYNC_ID
+import com.example.lesson10.notifications.NewMovieNotification
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
@@ -27,7 +28,7 @@ class SyncMoviesWorker(context: Context, workerParameters: WorkerParameters) :
 
         private val periodicWorkRequest =
                 PeriodicWorkRequest.Builder(SyncMoviesWorker::class.java, 8, TimeUnit.HOURS)
-                        .setInitialDelay(1, TimeUnit.MINUTES)
+                        .setInitialDelay(20, TimeUnit.SECONDS)
                         .setConstraints(constraints)
                         .build()
 
@@ -41,6 +42,8 @@ class SyncMoviesWorker(context: Context, workerParameters: WorkerParameters) :
     }
 
     private fun tryToSync() = CoroutineScope(Dispatchers.IO).launch {
-        App.synchronizer.sync()
+        val newMovie = App.synchronizer.sync()
+
+        NewMovieNotification().show(applicationContext, newMovie)
     }
 }

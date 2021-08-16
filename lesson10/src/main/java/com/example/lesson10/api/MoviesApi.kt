@@ -10,7 +10,7 @@ interface MoviesApi {
     @GET("configuration")
     suspend fun getConfiguration(): ConfigurationResponse
 
-    @GET("movie/upcoming")
+    @GET("movie/popular")
     suspend fun getUpcomingMovies(
         @Query("page") page: Int,
     ): MoviesResponse
