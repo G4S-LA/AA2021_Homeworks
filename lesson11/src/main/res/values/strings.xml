@@ -17,4 +17,7 @@
     <string name="duration">MIN</string>
     <string name="movies_list">Movies list</string>
     <string name="bad_connection">Bad internet connection</string>
+    <string name="transition_name_movie_details">movieDetails</string>
+    <string name="movie_detail_transition_name">movie_detail_transition_name</string>
+    <string name="movie_card_transition_name">movie_card_transition_name</string>
 </resources>

@@ -6,10 +6,15 @@ import com.example.lesson11.api.ImageUrlAppender.Size
 import com.example.lesson11.api.RetrofitInstance.api
 import com.example.lesson11.api.RetrofitInstance.imageUrlAppender
 import com.example.lesson11.data.db.MoviesDatabase
-import com.example.lesson11.data.db.entities.*
-import com.example.lesson11.data.response.*
+import com.example.lesson11.data.db.entities.MovieDetailsEntity
+import com.example.lesson11.data.response.CastResponse
+import com.example.lesson11.data.response.MovieCastResponse
+import com.example.lesson11.data.response.MovieDetailsResponse
+import com.example.lesson11.data.response.MovieResponse
 import com.example.lesson11.model.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 interface MovieRepository {
     suspend fun loadMovies()
