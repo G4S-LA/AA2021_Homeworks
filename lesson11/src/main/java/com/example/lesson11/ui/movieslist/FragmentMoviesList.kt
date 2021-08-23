@@ -8,7 +8,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.FragmentNavigatorExtras
+//import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lesson11.R
@@ -47,7 +47,6 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             }
             val fragment = FragmentMoviesDetails()
 
-            //v.transitionName = requireContext().getString(R.string.movie_detail_transition_name)
             fragment.arguments = Bundle().apply { putInt(MOVIE_ID, movie.id) }
             requireActivity().supportFragmentManager.beginTransaction()
                     .addSharedElement(v, requireContext().getString(R.string.movie_detail_transition_name))

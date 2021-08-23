@@ -71,7 +71,7 @@ object MovieRepositoryImpl : MovieRepository {
         database = MoviesDatabase.getInstance(context)
     }
 
-    fun getLocalMovieDetails(id: Int) = database.moviesDao().getMovieDetails(id)
+    suspend fun getLocalMovieDetails(id: Int) = database.moviesDao().getMovieDetails(id)
 
 }
 

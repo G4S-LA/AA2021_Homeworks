@@ -27,6 +27,6 @@ interface MoviesDao {
     fun getAllGenres(): LiveData<List<GenreEntity>>
 
     @Query("SELECT * FROM movies_details_table WHERE id = :id")
-    fun getMovieDetails(id: Int): LiveData<MovieDetailsEntity>
+    suspend fun getMovieDetails(id: Int): MovieDetailsEntity
 
 }
