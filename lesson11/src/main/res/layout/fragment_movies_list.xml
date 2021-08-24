@@ -5,14 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    > <!--android:background="@color/back_fragment"> -->
+    android:transitionGroup="true">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_movies"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:overScrollMode="never"
-        android:transitionGroup="true"
         android:layout_marginTop="112dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

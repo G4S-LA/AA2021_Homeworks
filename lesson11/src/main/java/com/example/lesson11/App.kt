@@ -14,6 +14,7 @@ class App: Application() {
 
     companion object {
         const val SYNC_ID = "sync"
+        const val MOVIE = "movie"
         const val PREFERENCE_SYNC = "PREFERENCE_SYNC"
         val gson = Gson()
         val generatorGenre = object : TypeToken<List<Genre>>() {}.type!!

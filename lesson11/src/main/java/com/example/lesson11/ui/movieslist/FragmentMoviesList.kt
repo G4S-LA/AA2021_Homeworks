@@ -1,16 +1,14 @@
 package com.example.lesson11.ui.movieslist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.doOnPreDraw
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-//import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.lesson11.App.Companion.MOVIE
 import com.example.lesson11.R
 import com.example.lesson11.adapters.MoviesAdapter
 import com.example.lesson11.adapters.SpacesItemDecoration
@@ -34,6 +32,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     get() = requireView().findViewById<RecyclerView>(R.id.rv_movies).apply {
             layoutManager = GridLayoutManager(context, 2)
             addItemDecoration(SpacesItemDecoration(20))
+            setHasFixedSize(true)
         }
 
     private val movieDetails = object : MoviesAdapter.OnMovieListener {
@@ -51,14 +50,13 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             requireActivity().supportFragmentManager.beginTransaction()
                     .addSharedElement(v, requireContext().getString(R.string.movie_detail_transition_name))
                     .replace(R.id.main_container, fragment)
-                    .addToBackStack("123")
+                    .addToBackStack(MOVIE)
                     .commit()
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("§", "onCreateView: $this")
 
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
@@ -66,19 +64,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         rvMovies.adapter = moviesAdapter
         viewModelFragmentVM.moviesListLiveData.observe(viewLifecycleOwner) {
             if (it.isEmpty()) showToast(R.string.bad_connection)
-            moviesAdapter.refresh(it.map { movieEntity -> movieEntity.toMovie() })
-            Log.v("§", it.toString())
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d("§", "destroyView")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("§", "destroy")
+            moviesAdapter.refresh(it.map { movieEntity -> movieEntity.toMovie() })        }
     }
 
     private fun showToast(resId: Int) {
