@@ -1,12 +1,16 @@
 package com.example.lesson11.ui.moviesdetails
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.use
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,6 +22,8 @@ import com.example.lesson11.R
 import com.example.lesson11.adapters.ActorsAdapter
 import com.example.lesson11.model.MovieDetails
 import com.example.lesson11.viewmodels.FragmentMoviesDetailsVM
+import com.google.android.material.theme.MaterialComponentsViewInflater
+import com.google.android.material.transition.MaterialContainerTransform
 
 class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private val fragmentDetailsVM: FragmentMoviesDetailsVM by lazy {
@@ -36,6 +42,16 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private val rvActors: RecyclerView by lazy {
         requireView().findViewById<RecyclerView>(R.id.rv_actors).apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = 500L
+            setAllContainerColors(ContextCompat.getColor(requireContext(), R.color.back))
+            scrimColor = Color.TRANSPARENT
         }
     }
 
@@ -75,9 +91,9 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         }
 
         Glide.with(requireContext())
-            .load(movie.detailImageUrl)
-            .apply(requestOptions)
-            .into(image)
+                .load(movie.detailImageUrl)
+                .apply(requestOptions)
+                .into(image)
     }
 
     private fun setAdapter(movie: MovieDetails) {

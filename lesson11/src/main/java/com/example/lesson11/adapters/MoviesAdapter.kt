@@ -1,6 +1,7 @@
 package com.example.lesson11.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +18,8 @@ import com.example.lesson11.R
 import com.example.lesson11.model.Movie
 
 class MoviesAdapter(
-    private val context: Context,
-    private val listener: OnMovieListener
+        private val context: Context,
+        private val listener: OnMovieListener
 ) : RecyclerView.Adapter<MoviesAdapter.ViewHolderMovie>() {
 
     private var movies: List<Movie> = listOf()
@@ -32,12 +33,15 @@ class MoviesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolderMovie, position: Int) {
+        holder.itemView.transitionName =
+                holder.itemView.context.getString(R.string.movie_card_transition_name) + position
         holder.bind(getItem(position))
     }
 
     fun refresh(moviesList: List<Movie>) {
         movies = moviesList
         notifyDataSetChanged()
+        Log.v("§", "Обновил $moviesList")
     }
 
     override fun getItemCount(): Int = movies.size
@@ -63,16 +67,16 @@ class MoviesAdapter(
                 transform(CenterCrop(), RoundedCorners(16))
             }
             Glide.with(image.context)
-                .load(movie.imageUrl)
-                .apply(requestOptions)
-                .into(image)
+                    .load(movie.imageUrl)
+                    .apply(requestOptions)
+                    .into(image)
         }
 
         override fun onClick(v: View?) {
             val pos = adapterPosition
 
             if (pos != RecyclerView.NO_POSITION) {
-                listener.onClickMovie(getItem(pos))
+                listener.onClickMovie(itemView, getItem(pos))
             }
         }
 
@@ -84,16 +88,16 @@ class MoviesAdapter(
             numReviews.text = movie.reviewCount.toString().plus("K REVIEWS")
             rating.rating = movie.rating
             favorite.setColorFilter(
-                if (movie.isLiked) {
-                    ContextCompat.getColor(context, R.color.pink)
-                } else {
-                    ContextCompat.getColor(context, R.color.white)
-                }
+                    if (movie.isLiked) {
+                        ContextCompat.getColor(context, R.color.pink)
+                    } else {
+                        ContextCompat.getColor(context, R.color.white)
+                    }
             )
         }
     }
 
     interface OnMovieListener {
-        fun onClickMovie(movie: Movie)
+        fun onClickMovie(v: View, movie: Movie)
     }
 }
